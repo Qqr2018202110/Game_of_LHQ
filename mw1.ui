@@ -14,12 +14,12 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QProgressBar" name="bar_of_qi_1">
+   <widget class="QProgressBar" name="life_me">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>780</y>
-      <width>491</width>
+      <x>280</x>
+      <y>650</y>
+      <width>241</width>
       <height>16</height>
      </rect>
     </property>
@@ -33,12 +33,12 @@
      <string>life_of_me</string>
     </property>
    </widget>
-   <widget class="QProgressBar" name="bar_of_qi_2">
+   <widget class="QProgressBar" name="life_enemy">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>20</y>
-      <width>491</width>
+      <x>280</x>
+      <y>150</y>
+      <width>261</width>
       <height>16</height>
      </rect>
     </property>
@@ -77,6 +77,32 @@
     <property name="text">
      <string>Play
 Play</string>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="qi_me">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>790</y>
+      <width>431</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="value">
+     <number>24</number>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="qi_enemy">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>10</y>
+      <width>431</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="value">
+     <number>24</number>
     </property>
    </widget>
   </widget>

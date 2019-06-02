@@ -11,28 +11,29 @@ Point::Point(const Point &p) {	//复制构造函数的实现
 }
 
 
-int Point::getX(){
+double Point::getX(){
     return this->_x;
 }
-int Point::getY(){
+double Point::getY(){
     return this->_y;
 }
 
 
 Point Point::move_point(int direction)
 {
-    switch (direction) {
+    switch (direction)
+    {
     case 1:
-        _y -- ;
+        _y -= 0.5 ;
         break;
     case 2:
-        _y ++ ;
+        _y += 0.5 ;
         break ;
     case 3:
-        _x -- ;
+        _x -= 0.5 ;
         break ;
     case 4:
-        _x ++ ;
+        _x += 0.5 ;
         break ;
     default:
         break ;

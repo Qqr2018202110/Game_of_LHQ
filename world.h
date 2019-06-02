@@ -8,6 +8,21 @@
 #include "soldier.h"
 #include "enemy.h"
 #include "base.h"
+#include "qmovie.h"
+#include "qlabel.h"
+#include <QImage>
+#include<QKeyEvent>
+#include<QTimer>
+#include <QProgressBar>
+#include <QTime>
+#include <QObject>
+#include <qobject.h>
+#include "soldier1.h"
+#include "soldier2.h"
+#include "soldier3.h"
+#include "enemy1.h"
+#include "enemy2.h"
+#include "enemy3.h"
 
 class World
 {
@@ -38,19 +53,23 @@ public:
     int get_rank() {return _rank ;}
     //返回这些值
 
-    void life_loss_of_me() {_life_of_me-- ;}
-    void life_loss_of_enemy() {_life_of_enemy-- ;}
+    void life_loss_of_me(int x=2) {_life_of_me-=x ;}
+    void life_loss_of_enemy(int x=2) {_life_of_enemy-=x ;}
     //掉血函数
 
-    void eraseObj(int x, int y);
+    void eraseObj(double x, double y);
     //如果有东西被干掉了，就调用这个函数
 
-    void addSol1(int x,int y) ;
+    void addSol1(double x,double y) ;
+    void addSol2(double x,double y) ;
+    void addSol3(double x,double y) ;
     //自己的派兵函数
-    void addEne1(int x,int y) ;
+    void addEne1(double x,double y) ;
+    void addEne2(double x,double y) ;
+    void addEne3(double x,double y) ;
     //对方的派兵函数
 
-    void addRuins(int x,int y) ;
+    void addRuins(double x,double y) ;
     //某些东西被干掉之后，会有残骸。。。
 
     bool can_move(Soldier* s) ;
@@ -68,7 +87,6 @@ public:
 
     bool tower_safe(Tower *tower ) ;
     bool base_safe(Base *base) ;
-
 
 private:
     vector<Soldier *> _soldier ;
@@ -91,7 +109,8 @@ private:
 
     int _rank ;
     //当前等级
-
+    QImage getImage(int i);
+    void showImage(int i,int x,int y);
 
 };
 

@@ -18,6 +18,9 @@ public:
     Point getRT() {return _RT ;}
     Point getRB() {return _RB ;}
 
+    double getHeight() {return _RT.getY() - _RB.getY() ;}
+    double getWidth() {return _RT.getX() - _LT.getX() ;}
+
     void move_rec(int direction) ;
 
 private:

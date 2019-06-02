@@ -14,6 +14,8 @@
 #include "enemy.h"
 #include "base.h"
 #include "rectangle.h"
+#include <QPropertyAnimation>
+#include "qlabel.h"
 
 namespace Ui {
 class MW1;
@@ -41,6 +43,7 @@ public:
     void attack_base(Enemy * e) ;
 
     World getGame() { return _game ;}
+    void show_attack(double x1,double,double,double);
 
 protected slots:
     void march_of_soldiers();//己方士兵的移动
@@ -55,6 +58,8 @@ private slots:
 
     void on_start_button_clicked();
 
+    //void on_qi_me_valueChanged(int value);
+
 private:
     Ui::MW1 *ui;
     World _game;
@@ -66,6 +71,7 @@ private:
     QTimer *timer2;
     QTimer *timer3;
     QTimer *timer4;
+    void drawline(double x1,double y1, double x2,double y2);
 
 };
 

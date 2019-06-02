@@ -6,6 +6,7 @@
         <file>Background.jpg</file>
         <file>start.jpg</file>
         <file>objects.png</file>
+        <file>background.png</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>2953.mp3</file>

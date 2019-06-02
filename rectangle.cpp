@@ -42,10 +42,10 @@ void Rectangle::move_rec(int direction)
 {
     switch (direction) {
     case 1:
-        _LB = _LB.move_point(1) ;
-        _LT = _LT.move_point(1) ;
-        _RB = _RB.move_point(1) ;
-        _RT = _RT.move_point(1) ;
+        _LB=_LB.move_point(1);
+        _LT=_LT.move_point(1);
+        _RB=_RB.move_point(1);
+        _RT=_RT.move_point(1);
         _left_line = _left_line.move_line(1) ;
         _right_line = _right_line.move_line(1) ;
         _top_line = _top_line.move_line(1) ;

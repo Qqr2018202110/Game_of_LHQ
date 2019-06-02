@@ -1,18 +1,18 @@
-#include "tower.h"
+#include "base.h".h"
 #include "world.h"
 #include "rpgobj.h"
 
-Tower::Tower()
+Base::Base()
 {
 
 }
 
-Tower::~Tower()
+Base::~Base()
 {
 
 }
 
-void Tower::onErase()
+void Base::onErase()
 {
     QMediaPlayer * player = new QMediaPlayer;
     player->setMedia(QUrl("qrc:/sounds/crash.mp3"));
@@ -20,22 +20,21 @@ void Tower::onErase()
     player->play();
 }
 
-void Tower::life_loss(RPGObj *r)
+void Base::life_loss(RPGObj *r)
 {
     const char* s=r->getType();
     int lose=0;
-    char* s1= "Soldier1";
-    if(strcmp(s,s1))
+    if(strcmp(s,"Enemy1"))
         lose=2;
-    if(strcmp(s,"Soldier2"))
+    if(strcmp(s,"Enemy2"))
         lose=1;
-    if(strcmp(s,"Soldier3"))
+    if(strcmp(s,"Enemy3"))
         lose=4;
-    _life=_life-lose;
+        _life=_life-lose;
 }
 
-const char* Tower::getType()
+const char* Base::getType()
 {
-    const char*s="Tower";
+    const char*s="Base";
     return (s);
 }

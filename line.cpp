@@ -3,6 +3,7 @@
 #include <cmath>
 #include<algorithm>
 #include<iostream>
+#include <math.h>
 using namespace std;
 
 
@@ -14,7 +15,12 @@ Line::Line (Line &l): _pa(l._pa), _pb(l._pb) {//组合类的复制构造函数
 
 void Line::show(QPainter & painter){
     painter.save();
-    painter.drawLine(this->_pa.getX()*32,this->_pa.getY()*32,this->_pb.getX()*32,this->_pb.getY()*32);
+    int x1 = this->_pa.getX() * 32 ;
+    int x2 = this->_pb.getX() * 32 ;
+    int y1 = this->_pa.getY() * 32 ;
+    int y2 = this->_pb.getY() * 32 ;
+
+    painter.drawLine(x1,y1,x2,y2);
     painter.restore();
 }
 
