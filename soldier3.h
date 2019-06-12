@@ -6,7 +6,6 @@ class Soldier3 : public Soldier
 {
 public:
     Soldier3();
-    const char* getType();
 };
 
 #endif // SOLDIER3_H

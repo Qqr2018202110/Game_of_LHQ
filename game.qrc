@@ -3,15 +3,35 @@
         <file>TileB.png</file>
         <file>backg.jpg</file>
         <file>river.jpg</file>
-        <file>Background.jpg</file>
-        <file>start.jpg</file>
         <file>objects.png</file>
         <file>background.png</file>
+        <file>Start.png</file>
+        <file>Ali.png</file>
+        <file>ICON.png</file>
+        <file>LOSE_WIN.png</file>
+        <file>PRESS_P.png</file>
+        <file>Tencent.png</file>
+        <file>WIN_LOSE.png</file>
+        <file>Background2.png</file>
+        <file>1_LOSE_WIN.png</file>
+        <file>1_WIN_LOSE.png</file>
+        <file>2_LOSE_WIN.png</file>
+        <file>2_WIN_LOSE.png</file>
+        <file>3_LOSE_WIN.png</file>
+        <file>3_WIN_LOSE.png</file>
+        <file>Background3.png</file>
+        <file>RESULT_LOSE_WIN.png</file>
+        <file>RESULT_WIN_LOSE.png</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>2953.mp3</file>
         <file>hdl.mp3</file>
         <file>crash.mp3</file>
+        <file>START_BGM.mp3</file>
+        <file>PLAY_BGM.mp3</file>
     </qresource>
-    <qresource prefix="/"/>
+    <qresource prefix="/">
+        <file>RESULT_LOSE_WIN.png</file>
+        <file>RESULT_WIN_LOSE.png</file>
+    </qresource>
 </RCC>

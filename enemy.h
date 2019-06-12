@@ -15,6 +15,7 @@ public:
     double getX() {return _pos_x ;}
     double getY() {return _pos_y ;}
     void life_loss(RPGObj *r);
+    void show(QPainter * painter,int x=0);
 
 };
 

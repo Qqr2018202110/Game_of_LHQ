@@ -2,6 +2,7 @@
 #define ICON_H
 #include <string>
 #include <map>
+#include <QImage>
 using namespace std;
 
 //将一类图标定位到素材图片上的具体区域

@@ -6,7 +6,6 @@ class Enemy1 : public Enemy
 {
 public:
     Enemy1();
-    const char* getType();
 };
 
 #endif // ENEMY1_H

@@ -23,6 +23,9 @@
 #include "enemy1.h"
 #include "enemy2.h"
 #include "enemy3.h"
+#include "bullet.h"
+#include <QPen>
+#include <QFont>
 
 class World
 {
@@ -33,6 +36,7 @@ public:
     void initWrold0();//生成初始界面
     void initWorld1();//生成第一关
     void initWorld2();//通关之后生成第二关
+    void initWorld3();
 
     void delete_world() ;//通关之后覆盖前一关的数据
 
@@ -44,6 +48,7 @@ public:
     vector<Enemy *> getEnemy() {return _enemy ;}
     vector<Base *> getBase() {return _base ;}
     vector<RPGObj *> getOth() {return _others ;}
+    vector<Bullet *>& getBullet() {return _bullet ;}
     //返回这些 vector
 
     int get_qi_of_me() {return _qi_of_me ;}
@@ -87,6 +92,13 @@ public:
 
     bool tower_safe(Tower *tower ) ;
     bool base_safe(Base *base) ;
+    int get_myscore(){return  _myscore;}
+    int get_yourscore(){return  _yourscore;}
+    void set_myscore(int x){_myscore=x;}
+    void set_yourscore(int x){_yourscore=x;}
+    void set_qi_of_me(int x){_qi_of_me=x;}
+    void set_qi_of_enemy(int x){_qi_of_enemy=x;}
+
 
 private:
     vector<Soldier *> _soldier ;
@@ -94,11 +106,13 @@ private:
     vector<Enemy *> _enemy ;
     vector<RPGObj *> _others ;
     vector<Base *> _base ;
+    vector<Bullet *> _bullet ;
     //每个类一个 vector ，其他的放在 _others 里面
 
     QImage _background ;
     //背景图片
-
+    QImage _Ali;
+    QImage _Tencent;
     int _qi_of_me = 10 ;
     int _qi_of_enemy = 10 ;
     //两边的气
@@ -107,10 +121,10 @@ private:
     int _life_of_enemy = 100 ;
     //两边的生命值
 
-    int _rank ;
+    int _rank = 0 ;
+    int _myscore=0;
+    int _yourscore=0;
     //当前等级
-    QImage getImage(int i);
-    void showImage(int i,int x,int y);
 
 };
 

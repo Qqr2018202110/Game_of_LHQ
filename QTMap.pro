@@ -42,7 +42,8 @@ SOURCES += main.cpp\
     enemy1.cpp \
     enemy2.cpp \
     enemy3.cpp \
-    base.cpp
+    base.cpp \
+    bullet.cpp
 
 HEADERS  += \
     mw1.h \
@@ -59,16 +60,20 @@ HEADERS  += \
     soldier1.h \
     soldier2.h \
     soldier3.h \
-    enemy1.h \
     enemy2.h \
-    enemy3.h
+    enemy3.h \
+    bullet.h \
+    enemy1.h
 
 FORMS    += \
     mw1.ui
 
 DISTFILES += \
     ../../Downloads/3.3.28 �������� jc .docx \
-    ../../Downloads/3619.txt
+    ../../Downloads/3619.txt \
+    ICON.png \
+    WIN_LOSE.png \
+    WIN_LOSE.png
 
 RESOURCES += \
     game.qrc \

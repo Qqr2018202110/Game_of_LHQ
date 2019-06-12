@@ -15,10 +15,10 @@ public:
 
     double getX() {return _pos_x ;}
     double getY() {return _pos_y ;}
-    void SoldierAttack(int x,int y);
     int get_kind();
     void set_kind(int n);
     void life_loss(RPGObj *r);
+    void show(QPainter * painter,int x=0);
 
 private:
     int _kind=0;

@@ -1,8 +1,7 @@
 #include "mw1.h"
 #include "ui_mw1.h"
 #include "icon.h"
-
-
+#include "bullet.h"
 #include <QTime>
 #include<QTimer>
 #include <map>
@@ -22,7 +21,7 @@ MW1::MW1(QWidget *parent) :
 {
     ui->setupUi(this);
     _game.initWrold0();
-    setWindowTitle("what a fuck") ;
+    setWindowTitle("Tencent&Ali") ;
 
 
     ui->life_me->hide() ;
@@ -45,6 +44,7 @@ MW1::MW1(QWidget *parent) :
     connect(ui->start_button,SIGNAL(on_start_button_clicked()),this,SLOT(on_start_button_clicked())) ;
 
 
+
     timer1 = new QTimer(this);
     connect(timer1,SIGNAL(timeout()),this,SLOT(march_of_soldiers()));
     timer1->start(50);
@@ -58,6 +58,7 @@ MW1::MW1(QWidget *parent) :
     timer2->setInterval(5);
 
     qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
+
 
     timer3 = new QTimer(this);
     connect(timer3,SIGNAL(timeout()),this,SLOT(add_qi()));//timeout 是函数调用的信号（条件）
@@ -88,6 +89,7 @@ void MW1::paintEvent(QPaintEvent *)
     pa->begin(this);
     pa->translate(32,32);
     this->_game.show(pa);
+    drawScore(pa);
     pa->end();
     delete pa;
 
@@ -97,6 +99,8 @@ void MW1::paintEvent(QPaintEvent *)
     this->_rec_of_me.show(painter) ;
     painter.setPen(QPen(Qt::red,4)) ;
     this->_rec_of_enemy.show(painter) ;
+
+
 }
 
 void MW1::keyPressEvent(QKeyEvent *e)
@@ -118,7 +122,7 @@ void MW1::keyPressEvent(QKeyEvent *e)
     else if (e->key() == Qt::Key_D) {this->_rec_of_me.move_rec(4) ; if (!this->can_put_me(_rec_of_me)) this->_rec_of_me.move_rec(3) ;}
     else if (e->key() == Qt::Key_S) {this->_rec_of_me.move_rec(2) ; if (!this->can_put_me(_rec_of_me)) this->_rec_of_me.move_rec(1) ;}
     else if (e->key() == Qt::Key_W) {this->_rec_of_me.move_rec(1) ; if (!this->can_put_me(_rec_of_me)) this->_rec_of_me.move_rec(2) ;}
-    else if (e->key() == Qt::Key_K) //矩形框移动到应该放小兵的位置
+    else if (e->key() == Qt::Key_U) //矩形框移动到应该放小兵的位置
     {
         double x = this->_rec_of_me.getLT().getX() ;
         double y = this->_rec_of_me.getLT().getY() ;
@@ -126,11 +130,24 @@ void MW1::keyPressEvent(QKeyEvent *e)
         Point a(0,0),b(0,0) ; Rectangle null(a,b) ;
         this->setRect_of_me(null) ;
     }
-    else if(e->key()==Qt::Key_O)
+    else if(e->key()==Qt::Key_I)
     {
         double x = this->_rec_of_me.getLT().getX();
         double y = this->_rec_of_me.getLT().getY();
         this->_game.addSol2(x,y);
+        Point a(0,0),b(0,0) ; Rectangle null(a,b) ;
+        this->setRect_of_me(null) ;
+    }
+    else if(e->key()==Qt::Key_O)
+    {
+        double x = this->_rec_of_me.getLT().getX();
+        double y = this->_rec_of_me.getLT().getY();
+        this->_game.addSol3(x,y);
+        Point a(0,0),b(0,0) ; Rectangle null(a,b) ;
+        this->setRect_of_me(null) ;
+    }
+    else if(e->key()==Qt::Key_K)
+    {
         Point a(0,0),b(0,0) ; Rectangle null(a,b) ;
         this->setRect_of_me(null) ;
     }
@@ -153,11 +170,32 @@ void MW1::keyPressEvent(QKeyEvent *e)
     else if (e->key() == Qt::Key_Down) {this->_rec_of_enemy.move_rec(2) ; if (!this->can_put_enemy(_rec_of_enemy)) this->_rec_of_enemy.move_rec(1) ;}
     else if (e->key() == Qt::Key_Right) {this->_rec_of_enemy.move_rec(4) ; if (!this->can_put_enemy(_rec_of_enemy)) this->_rec_of_enemy.move_rec(3) ;}
     else if (e->key() == Qt::Key_Left) {this->_rec_of_enemy.move_rec(3) ; if (!this->can_put_enemy(_rec_of_enemy)) this->_rec_of_enemy.move_rec(4) ;}
-    else if (e->key() == Qt::Key_2) //矩形框移动到应该放小兵的位置
+    else if (e->key() == Qt::Key_4) //矩形框移动到应该放小兵的位置
     {
         double x = this->_rec_of_enemy.getLT().getX() ;
         double y = this->_rec_of_enemy.getLT().getY() ;
         this->_game.addEne1(x,y) ;
+        Point a(0,0),b(0,0) ; Rectangle rec(a,b) ;
+        this->setRect_of_enemy(rec) ;
+    }
+    else if (e->key() == Qt::Key_5) //矩形框移动到应该放小兵的位置
+    {
+        double x = this->_rec_of_enemy.getLT().getX() ;
+        double y = this->_rec_of_enemy.getLT().getY() ;
+        this->_game.addEne2(x,y) ;
+        Point a(0,0),b(0,0) ; Rectangle rec(a,b) ;
+        this->setRect_of_enemy(rec) ;
+    }
+    else if (e->key() == Qt::Key_6) //矩形框移动到应该放小兵的位置
+    {
+        double x = this->_rec_of_enemy.getLT().getX() ;
+        double y = this->_rec_of_enemy.getLT().getY() ;
+        this->_game.addEne3(x,y) ;
+        Point a(0,0),b(0,0) ; Rectangle rec(a,b) ;
+        this->setRect_of_enemy(rec) ;
+    }
+    else if (e->key() == Qt::Key_2) //矩形框移动到应该放小兵的位置
+    {
         Point a(0,0),b(0,0) ; Rectangle rec(a,b) ;
         this->setRect_of_enemy(rec) ;
     }
@@ -167,19 +205,56 @@ void MW1::keyPressEvent(QKeyEvent *e)
 
     else if(e->key() == Qt::Key_P) //如果某一关结束，按 p 进入下一关
     {
-        if (this->_game.get_life_of_enemy() == 0)
+        if(this->_game.get_life_of_me()<=0||this->_game.get_life_of_enemy()<=0)
         {
+            this->_game.delete_world() ;
             int r = this->_game.get_rank() ;//根据当前关卡，生成下一关
             switch(r)
             {
-                case 1 : this->_game.initWorld2() ; break ;
-                default: exit(0) ;
-            }
+            case 1 : this->_game.initWorld2() ; break ;
+            case 2 : this->_game.initWorld3() ; break ;
+            case 3 :     QPainter *pa;
+                pa = new QPainter();
+                pa->begin(this);
+                pa->translate(32,32);
+                draw_dead_choose(pa);
+                pa->end();
+                delete pa;
+              }
+            if(r!=3)
+            {
+
+            this->ui->qi_me->show() ;
+            this->ui->qi_enemy->show() ;
+            this->ui->life_me->show() ;
+            this->ui->life_enemy->show() ;
         }
+            }
     }
 
 
-    this->repaint();    
+    if(this->_game.get_rank()==3&&(this->_game.get_life_of_me()<=0||this->_game.get_life_of_enemy()<=0))
+    {
+        if(e->key() == Qt::Key_Y)
+        {
+            this->_game.initWorld1();
+            this->ui->qi_me->show() ;
+            this->ui->qi_enemy->show() ;
+            this->ui->life_me->show() ;
+            this->ui->life_enemy->show() ;
+            this->_game.set_myscore(0) ;
+            this->_game.set_yourscore(0) ;
+            this->_game.set_qi_of_me(10);
+            this->_game.set_qi_of_enemy(10);
+        }
+         if(e->key() == Qt::Key_N)
+         {
+             exit(1);
+         }
+    }
+
+
+    this->repaint();
 
 }
 
@@ -222,24 +297,40 @@ void MW1::march_of_soldiers()
             this->attack_enemy((*it)) ;
             this->attack_tower((*it)) ;
             {
-                if ( fabs(x-6) < 0.05 && y < 2 && this->_game.get_life_of_enemy() > 0 ) //（7,2）和（12,2）是可以攻击敌人大本营的小兵的坐标
+                if ( 6 - x > -0.1 && 6 - x < 2.1 && y < 2 && this->_game.get_life_of_enemy() > 0 ) //（7,2）和（12,2）是可以攻击敌人大本营的小兵的坐标
                 {
+                    Bullet* b = new Bullet ;
+                    b->initObj("bullet");
+                    b->setkind(1);
+                    b->setPosX(x+1); b->setPosY(y+1);
+                    Point end(8,2.5) ;
+                    b->setEnd(end.getX(),end.getY());
+                    this->_game.getBullet().push_back(b);
+
                     QTime time = QTime::currentTime() ;
 
                     if ( time.second()%2 == 1 ) this->_game.life_loss_of_enemy() ;
                 }
-                else if ( fabs(x-12) < 0.05 && y < 2 && this->_game.get_life_of_enemy() > 0 )
+                else if ( 12 - x < -0.1 && x - 12 < 2.1 && y < 2 && this->_game.get_life_of_enemy() > 0 )
                 {
+                    Bullet* b = new Bullet ;
+                    b->initObj("bullet");
+                    b->setkind(1);
+                    b->setPosX(x+1); b->setPosY(y+1);
+                    Point end(12,2.5) ;
+                    b->setEnd(end.getX(),end.getY());
+                    this->_game.getBullet().push_back(b);
+
                     QTime time = QTime::currentTime() ;
 
                     if ( time.second()%2 == 1 ) this->_game.life_loss_of_enemy() ;
                 }
-                else if ( fabs(x-6) < 0.1 && y < 2 && this->_game.get_life_of_enemy() <= 0 )
+                else if ( 6 - x > -0.1 && 6 - x < 2.1 && y < 2 && this->_game.get_life_of_enemy() <= 0 )
                 {
                     _over = 1 ;//如果敌人大本营被干掉，这一关结束，后面 _over 有代码实现
                     break ;
                 }
-                else if ( fabs(x-12) < 0.05 && y < 2 && this->_game.get_life_of_enemy() <= 0 )
+                else if ( 12 - x < -0.1 && x - 12 < 2.1 && y < 2 && this->_game.get_life_of_enemy() <= 0 )
                 {
                     _over = 1 ;
                     break ;
@@ -252,7 +343,17 @@ void MW1::march_of_soldiers()
 
     }
 
-    if (_over) this->_game.delete_world() ;
+    if (_over)
+    {
+        this->ui->qi_me->hide() ;
+        this->ui->qi_enemy->hide() ;
+        this->ui->life_me->hide() ;
+        this->ui->life_enemy->hide() ;
+        int x=this->_game.get_myscore();
+        x++;
+        this->_game.set_myscore(x);
+        this->_game.delete_world() ;
+    }
     this->repaint();
 }
 
@@ -270,13 +371,13 @@ void MW1::march_of_enemy() //和上面同理，但是被敌人把老家端掉的
                 double x = (*it)->getPosX() ; double y = (*it)->getPosY() ;
                 if (this->_game.can_move((*it)))
                 {
-                    if ( fabs(y-21.5) < 0.02 && x <= 6 && x > 3.5)
+                    if ( fabs(y-21.6) < 0.02 && x <= 6 && x >= 3.5)
                         (*it)->enemy_move(4,0.01) ;
-                    else if ( fabs(x-3.5) < 0.02 && y <= 21.5 && y >= 1.5)
+                    else if ( fabs(x-3.5) < 0.02 && y <= 21.6 && y >= 1.5)
                         (*it)->enemy_move(2,0.01) ;
                     else if ( fabs(y-1.5) < 0.02 && x >= 3.4 && x <= 6 )
                         (*it)->enemy_move(3,0.01) ;
-                    else if ( fabs(y-21.5) < 0.02 && x < 14.5 && x >= 12)
+                    else if ( fabs(y-21.6) < 0.02 && x <= 14.5 && x >= 12)
                         (*it)->enemy_move(3,0.01) ;
                     else if ( x > 14.499 && y <= 21.6 && y >= 1.5)
                         (*it)->enemy_move(2,0.01) ;
@@ -291,28 +392,53 @@ void MW1::march_of_enemy() //和上面同理，但是被敌人把老家端掉的
                     this->attack_soldier((*it)) ;
                     this->attack_base((*it)) ;
 
-                    if ( fabs(x-6) < 0.01 && fabs(y-21.5) < 0.1 && this->_game.get_life_of_me() >0 )
+                    if ( 6 - x > -0.1 && 6 - x < 2.1 && fabs(y-21.5) < 0.1 && this->_game.get_life_of_me() >0 )
                     {
+                        Bullet* b = new Bullet ;
+                        b->initObj("bullet");
+                        b->setkind(1);
+                        b->setPosX(x+1); b->setPosY(y+1);
+                        Point end(8,22.5) ;
+                        b->setEnd(end.getX(),end.getY());
+                        this->_game.getBullet().push_back(b);
+
                         QTime time = QTime::currentTime() ;
 
                         if ( time.second()%2 == 1 )
                             this->_game.life_loss_of_me() ;
                     }
-                    else if ( fabs(x-12) < 0.01 && fabs(y-21.5) < 0.1 && this->_game.get_life_of_enemy() >0 )
+                    else if ( x - 12 > -0.1 && x - 12 < 2.1 && fabs(y-21.5) < 0.1 && this->_game.get_life_of_me() >0 )
                     {
+                        Bullet* b = new Bullet ;
+                        b->initObj("bullet");
+                        b->setkind(1);
+                        b->setPosX(x+1); b->setPosY(y+1);
+                        Point end(12,22.5) ;
+                        b->setEnd(end.getX(),end.getY());
+                        this->_game.getBullet().push_back(b);
+
                         QTime time = QTime::currentTime() ;
 
                         if ( time.second()%2 == 1 )
                             this->_game.life_loss_of_me() ;
                     }
-                    else if ( fabs(x-6) < 0.01 && fabs(y-21.5) < 0.1 ) { _over = 1 ; break ;}
-                    else if ( fabs(x-12) < 0.01 && fabs(y-21.5) < 0.1 ) { _over = 1 ; break ;}
+                    else if ( 6 - x > -0.1 && 6 - x < 2.1 && fabs(y-21.5) < 0.1 ) { _over = 1 ; break ;}
+                    else if ( x - 12 > -0.1 && x - 12 < 2.1 && fabs(y-21.5) < 0.1 ) { _over = 1 ; break ;}
 
                 }
                 }
             }
-        if (_over) this->_game.delete_world() ;
-
+            if (_over)
+            {
+                this->ui->qi_me->hide() ;
+                this->ui->qi_enemy->hide() ;
+                this->ui->life_me->hide() ;
+                this->ui->life_enemy->hide() ;
+                this->_game.delete_world() ;
+                int x=this->_game.get_yourscore();
+                x++;
+                this->_game.set_yourscore(x);
+            }
         this->repaint() ;
     }
 }
@@ -347,7 +473,7 @@ bool MW1::can_put_enemy(Rectangle rec)
     double x = rec.getLT().getX() ;
     double y = rec.getLT().getY() ;
 
-    if ( fabs(x-3.5) < 0.1 && y <= 10 && y >= 1.5 ) return 1 ;
+    if ( fabs(x-3.5) < 0.1 && y <= 10&& y >= 1.5 ) return 1 ;
     else if ( fabs(y-1.5) < 0.1 && x >= 3.5 && x <= 6 ) return 1 ;
     else if ( fabs(x-14.5) < 0.1 && y <= 10 && y >= 1.5 ) return 1 ;
     else if ( fabs(y-1.5) < 0.1 && x >= 12 && x <= 14.5 ) return 1 ;
@@ -361,24 +487,20 @@ void MW1::attack_enemy(Soldier *s)
 
     vector<Enemy *> v = this->_game.getEnemy() ;
     vector<Enemy *>::iterator it ;
-
     for ( it = v.begin() ; it != v.end() ; it++ )
     {
         double x1 = (*it)->getX() ; double y1 = (*it)->getY() ;
-        if ((*it)->getLife() >= 1 && fabs(x-x1) < 0.1 && fabs(y-y1) < 0.1)//判断攻击范围的同时判断敌兵还有多少血
-                                                           //如果敌兵只有一滴血，直接被秒，不用 _life-- 了
+        if ((*it)->getLife() >= 0 && fabs(x-x1) < 0.1 && y-y1<3.1&&y-y1>-0.1)//判断攻击范围的同时判断敌兵还有多少血                                                             //如果敌兵只有一滴血，直接被秒，不用 _life-- 了
         {
-            QTime time = QTime::currentTime() ;//可以攻击
-                                               //获取系统时间，每两秒干一滴血
-                                               //每个小兵每次只能干一个敌兵一滴血，所以要 break
-            if ( time.second()%2 == 1 )
-            {
                 (*it)->life_loss(s) ;
-                show_attack(x,y,x1,y1);
-                break ;
-            }
+                Bullet* b = new Bullet ;
+                b->setkind(1);
+                b->initObj("bullet");
+                b->setPosX(s->getPosX()+1); b->setPosY(s->getPosY()+1);
+                b->setEnd((*it)->getPosX()+1,(*it)->getPosY()+1);
+                this->_game.getBullet().push_back(b);
         }
-        else if ( fabs(x-x1) < 0.1 && fabs(y-y1) < 0.1 )
+        else if ( fabs(x-x1) < 0.1 &&  y-y1<3.1&&y-y1>-0.1 )
             this->_game.eraseObj((*it)->getX(),(*it)->getY()) ; //敌兵被干掉
 
     }
@@ -397,19 +519,18 @@ void MW1::attack_tower(Soldier *s)
         //if ( !this->_game.tower_safe((*it)) )
         {
             double x1 = (*it)->getPosX() ; double y1 = (*it)->getPosY() ;
-            if ((*it)->getLife() >= 1 && fabs(x-x1) < 0.05 && fabs(y-y1-2) < 0.1 )
+            if ((*it)->getLife() >= 0 && fabs(x-x1) < 1.5 && y-y1<3.1&&y-y1>-0.1 )
             {
-                QTime time = QTime::currentTime() ;
-
-                if ( time.second()%2 == 1 )
-                {
                     (*it)->life_loss(s) ;
-                    show_attack(x,y,x1,y1);
-                    //this->_game.delete_world() ;
-                    break ;
-                }
+                    Bullet* b = new Bullet ;
+                    b->setkind(1);
+                    b->initObj("bullet");
+                    b->setPosX(s->getPosX()+1); b->setPosY(s->getPosY()+1);
+                    b->setEnd((*it)->getPosX()+1.5,(*it)->getPosY()+1.5);
+                    this->_game.getBullet().push_back(b);
+
             }
-            else if ( fabs(x-x1) < 0.05 && fabs(y-y1-2) < 0.1 )
+            else if ( fabs(x-x1) < 1.5 &&  y-y1<3.1&&y-y1>-0.1 )
             {
                 this->_game.eraseObj((*it)->getPosX(),(*it)->getPosY()) ;
                 //this->_game.delete_world() ;
@@ -432,19 +553,18 @@ void MW1::attack_base(Enemy *e)
         //if ( !this->_game.base_safe((*it)) )
         {
             double x1 = (*it)->getPosX() ; double y1 = (*it)->getPosY() ;
-            if ((*it)->getLife() >= 1 && fabs(x-x1) < 0.05 && fabs(y-y1+2) < 0.1 )
+            if ((*it)->getLife() >= 0 && fabs(x-x1) < 1.5 && y-y1 < 0.1 &&y-y1>-3.1 )
             {
-                QTime time = QTime::currentTime() ;
-
-                if ( time.second()%2 == 1 )
-                {
                     (*it)->life_loss(e) ;
-                    show_attack(x,y,x1,y1);
-                    //this->_game.delete_world() ;
-                    break ;
-                }
+                    Bullet* b = new Bullet ;
+                    b->setkind(2);
+                    b->initObj("bullet");
+                    b->setPosX(e->getPosX()+1); b->setPosY(e->getPosY()+1);
+                    b->setEnd((*it)->getPosX()+1.5,(*it)->getPosY()+1.5);
+                    this->_game.getBullet().push_back(b);
+
             }
-            else if ( fabs(x-x1) < 0.05 && fabs(y-y1+2) < 0.1 )
+            else if ( fabs(x-x1) < 1.5 && y-y1 < 0.1 &&y-y1>-3.1 )
             {
                 this->_game.eraseObj((*it)->getPosX(),(*it)->getPosY()) ;
                 this->_game.addRuins((*it)->getPosX(),(*it)->getPosY()) ;
@@ -464,20 +584,22 @@ void MW1::attack_soldier(Enemy *e)
     for ( it = v.begin() ; it != v.end() ; it++)
     {
         double x1 = (*it)->getPosX() ; double y1 = (*it)->getPosY() ;
-        if ((*it)->getLife() >= 1 &&fabs(x-x1) < 0.1 && fabs(y-y1) < 0.1 )
+        if ((*it)->getLife() >= 0 &&fabs(x-x1) < 0.1 && y-y1 < 0.1 &&y-y1>-3.1)
         {
-            QTime time = QTime::currentTime() ;
-
-            if ( time.second()%2 == 1 )
-            {
                 (*it)->life_loss(e) ;
-                show_attack(x,y,x1,y1);
-                break ;
-            }
+                Bullet* b = new Bullet ;
+                b->setkind(1);
+                b->initObj("bullet");
+                b->setPosX(e->getPosX()+1); b->setPosY(e->getPosY()+1);
+                b->setEnd((*it)->getPosX()+1,(*it)->getPosY()+1);
+                this->_game.getBullet().push_back(b);
+
         }
 
-        else if ( fabs(x-x1) < 0.1 && fabs(y-y1) < 0.1 )
+        else if ( fabs(x-x1) < 0.1 && y - y1 > -3.1 && y - y1 < 0.1 )
         {
+            double _x=(*it)->getX();
+            double _y=(*it)->getY();
             this->_game.eraseObj((*it)->getX(),(*it)->getY()) ;
         }
 
@@ -495,43 +617,28 @@ void MW1::on_start_button_clicked()
     ui->start_button->deleteLater() ;
 }
 
-void MW1::show_attack(double x1,double y1,double x2,double y2)
+void MW1::drawScore(QPainter *pa)
 {
-    Point p1(x1,y1),p2(x2,y2);
-    Line L(p1,p2);
-    Rectangle r(p1,p2);
-    QPainter painter(this);
-    painter.setPen(QPen(Qt::blue,4));
-    L.show(painter);
-    /*  声明动画类，并将控制对象 this (this一定是继承自QObject的窗口部件)  以及属性名 "geometry" 传入构造函数  */
-    //QPropertyAnimation* animation = new QPropertyAnimation(this, "geometry");
-    /*  设置动画持续时长为 2 秒钟  */
-    //animation->setDuration(2000);
-    /*  设置动画的起始状态 起始点 (1,2)  起始大小 (3,4)  */
-    //animation->setStartValue(QLine(1, 2, 3, 4));
-    /*  设置动画的结束状态 结束点 (100,200)  结束大小 (300,400)  */
-    //animation->setEndValue(QLine(100, 200, 300, 400));
-    /*  设置动画效果  */
-    //animation->setEasingCurve(QEasingCurve::OutInExpo);
-    /*  开始执行动画 QAbstractAnimation::DeleteWhenStopped 动画结束后进行自清理(效果就好像智能指针里的自动delete animation) */
-    /*animation->start(QAbstractAnimation::DeleteWhenStopped);
-    animation.setDuration(3000);
-    animation.setStartValue(QLine(0, 0, 100, 30));
-    animation.setEndValue(QLine(250, 250, 100, 30));
-
-    animation.setEasingCurve(QEasingCurve::OutBounce);
-
-    animation.start();*/
-
-
+    pa->setPen(QPen(Qt::red));
+    QFont font;
+    font.setPointSize(30);
+    font.setBold(true);
+    pa->setFont(font);
+    pa->drawText(QRect(640, 200, 300, 300), QString("Score : %1").arg(this->_game.get_yourscore()));
+    pa->setPen(QPen(Qt::blue));
+    pa->drawText(QRect(640, 600, 300, 300), QString("Score : %1").arg(this->_game.get_myscore()));
+    pa->setPen((QPen(Qt::green)));
+    pa->drawText(QRect(640, 400, 300, 300), QString("Round : %1").arg(this->_game.get_rank()));
 }
-void MW1::drawline(double x1, double y1, double x2, double y2)
+
+void MW1::draw_dead_choose(QPainter *pa)
 {
-    /*QPainter *p;
-    p->begin(this);
-    Line l(x1,y1,x2,y2);
-    l.show(*p);
-
-    //p->drawLine(x1*32,y1*32,x2*32,y2*32);
-    */
+    pa->setPen(QPen(Qt::black));
+    QFont font;
+    font.setPointSize(10);
+    font.setBold(true);
+    pa->setFont(font);
+    pa->drawText(QRect(200, 200, 300, 300), QString("Another game? Please press Y"));
+    pa->drawText(QRect(200, 300, 300, 300), QString("Quit game? Please press N"));
 }
+

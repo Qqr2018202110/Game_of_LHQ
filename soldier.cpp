@@ -1,6 +1,6 @@
 #include "soldier.h"
 #include "world.h"
-
+static const int Health_Bar_Width = 80;
 //direction =1,2,3,4 for 上下左右
 void Soldier::soldier_move(int direction, double step)
 {
@@ -14,15 +14,6 @@ void Soldier::soldier_move(int direction, double step)
         _pos_x += step ;
 }
 
-void Soldier::SoldierAttack(int x,int y)
-{
-    QMovie* movie = new QMovie(":/images/camEffectTarget.gif");
-    QLabel* label = new QLabel;
-    label->setMovie(movie);
-    label->setGeometry(x,y,5,5);
-    movie->start();
-    label->show();
-}
 void Soldier::set_kind(int n)
 {
     _kind=n;
@@ -35,16 +26,40 @@ int Soldier::get_kind()
 
 void Soldier::life_loss(RPGObj *r)
 {
-    const char* s=r->getType();
-    int lose=0;
-    if(strcmp(s,"Enemy1"))
+    int lose = 0;
+    int rank=r->get_rank();
+    if(rank==1)
         lose=2;
-    if(strcmp(s,"Enemy2"))
+    if(rank==2)
         lose=4;
-    if(strcmp(s,"Enemy3"))
-        lose=1;
-    if(strcmp(s,"Tower"))
+    if(rank==3)
         lose=1;
         _life=_life-lose;
+}
+
+void Soldier::show(QPainter *painter, int x)
+{
+    painter->save();
+    QPoint m_pos(this->getPosX() * 32,(this->getPosY()+0.3*x) * 32);
+    QPoint healthBarPoint = m_pos + QPoint(-Health_Bar_Width / 2 + 25,  - 10);
+    // 绘制血条
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(Qt::red);
+    QRect healthBarBackRect(healthBarPoint, QSize(Health_Bar_Width, 2));
+    painter->drawRect(healthBarBackRect);
+
+    painter->setBrush(Qt::green);
+    QRect healthBarRect(healthBarPoint, QSize((double)this->getLife() / _maxlife * Health_Bar_Width, 2));
+    painter->drawRect(healthBarRect);
+
+    // 绘制偏转坐标,由中心+偏移=左上
+    static const QPoint offsetPoint(32, 32);
+    painter->translate(m_pos);
+    //painter->rotate(m_rotationSprite);
+    // 绘制敌人
+    //painter->drawPixmap(offsetPoint, m_sprite);
+    painter->drawImage(0,0,this->_pic);
+
+    painter->restore();
 }
 

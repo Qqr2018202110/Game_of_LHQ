@@ -10,6 +10,10 @@ public :
     }
     Point(const Point &p);
     Point move_point(int direction) ;
+    void setPoint(double x,double y)
+    {
+        _x = x ; _y = y ;
+    }
 
     double getX();
     double getY();
